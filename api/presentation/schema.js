@@ -1,4 +1,5 @@
 import { makeExecutableSchema } from 'graphql-tools';
+import Board from '../business/board';
 
 const typeDefs = [
   `
@@ -14,6 +15,7 @@ const typeDefs = [
 
   type Query {
     boards: [Board]
+    board(id: Int!): Board
   }
 
   schema {
@@ -24,18 +26,8 @@ const typeDefs = [
 
 const resolvers = {
   Query: {
-    boards: () => [
-      {
-        id: 1,
-        name: 'JP',
-        type: 'waves',
-      },
-      {
-        id: 2,
-        name: 'foil',
-        type: 'glassy',
-      },
-    ],
+    boards: async (_, args, ctx) => Board.loadAll(ctx, args),
+    board: async (_, args, ctx) => Board.load(ctx, args),
   },
 };
 
