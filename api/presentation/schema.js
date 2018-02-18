@@ -9,10 +9,6 @@ const typeDefs = [
     type: String
   }
 
-  enum BoardType {
-    board
-  }
-
   type Query {
     boards: [Board]
     board(id: Int!): Board
