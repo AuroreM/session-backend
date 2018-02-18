@@ -1,15 +1,4 @@
-const mockedBoards = [
-  {
-    id: 1,
-    name: 'JP',
-    type: 'waves',
-  },
-  {
-    id: 2,
-    name: 'foil',
-    type: 'glassy',
-  },
-];
+import BoardDB from '../db/queryBuilders/board';
 
 class Board {
   id: number;
@@ -23,14 +12,14 @@ class Board {
   }
 
   static async load(ctx, args) {
-    const data = mockedBoards[args.id];
+    const data = await BoardDB.getById(args.id);
     if (!data) return null;
 
     return new Board(data);
   }
 
   static async loadAll(ctx, args) {
-    const data = mockedBoards;
+    const data = await BoardDB.getAll();
 
     return data.map(row => new Board(row));
   }
