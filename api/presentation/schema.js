@@ -2,6 +2,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 import Board from '../business/board';
 import Sail from '../business/sail';
 import Spot from '../business/spot';
+import Session from '../business/session';
 
 const typeDefs = [
   `
@@ -21,6 +22,12 @@ const typeDefs = [
     latitude: Float
     longitude: Float
   }
+  type Session {
+    id: Int!
+    sail: Sail
+    board: Board
+    spot: Spot
+  }
 
   type Query {
     boards: [Board]
@@ -29,6 +36,8 @@ const typeDefs = [
     sail(id: Int!): Sail
     spots: [Spot]
     spot(id: Int!): Spot
+    session(id: Int!): Session
+    sessions: [Session]
   }
 
   schema {
@@ -45,6 +54,8 @@ const resolvers = {
     sail: async (_, args, ctx) => Sail.load(ctx, args),
     spots: async (_, args, ctx) => Spot.loadAll(ctx, args),
     spot: async (_, args, ctx) => Spot.load(ctx, args),
+    session: async (_, args, ctx) => Session.load(ctx, args),
+    sessions: async (_, args, ctx) => Session.loadAll(ctx, args),
   },
 };
 
